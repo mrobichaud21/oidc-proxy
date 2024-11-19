@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Create and push a multi-platform manifest
+docker manifest create "$DOCKER_REPO:$DOCKER_TAG" \
+  "$DOCKER_REPO:$DOCKER_TAG-linux-amd64" \
+  "$DOCKER_REPO:$DOCKER_TAG-linux-arm64"
+
+docker manifest push "$DOCKER_REPO:$DOCKER_TAG"

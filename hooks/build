@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Enable Buildx
+docker buildx create --use || true
+
+# Build the multi-platform image
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  -t "$DOCKER_REPO:$DOCKER_TAG" \
+  --push .
