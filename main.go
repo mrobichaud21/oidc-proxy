@@ -16,21 +16,20 @@ import (
 )
 
 // Your OIDC provider details (replace with your actual provider info)
-var (
-	OIDC_PROVIDER_URL           = getEnv("OIDC_PROVIDER_URL", "https://login.obiwalker.com")
-	OIDC_API_URL                = getEnv("OIDC_API_URL", "https://oidc.obiwalker.com/api/v1/token")
-	CLIENT_ID                   = getEnv("OIDC_CLIENT_ID", "00000000-0000-0000-0000-000000000001")
-	CLIENT_SECRET               = getEnv("OIDC_CLIENT_SECRET", "00000000-0000-0000-0000-000000000002")
-	REDIRECT_URL                = getEnv("OIDC_REDIRECT_URL", "http://localhost:8080/callback")
-	APPLICATION_SERVER_HOST     = getEnv("APPLICATION_SERVER_HOST", "localhost")
-	APPLICATION_WEB_SERVER_PORT = getEnv("APPLICATION_WEB_SERVER_PORT", "8080")
-	APPLICATION_SERVER_SCHEME   = getEnv("APPLICATION_SERVER_SCHEME", "http")
-	PROXY_SERVER_PORT           = getEnv("PROXY_SERVER_PORT", "8080")
-	COOKIE_NAME                 = getEnv("COOKIE_NAME", "jwt")
-)
+var OIDC_PROVIDER_URL,
+	OIDC_API_URL,
+	CLIENT_ID,
+	CLIENT_SECRET,
+	REDIRECT_URL,
+	APPLICATION_SERVER_HOST,
+	APPLICATION_WEB_SERVER_PORT,
+	APPLICATION_SERVER_SCHEME,
+	PROXY_SERVER_PORT,
+	COOKIE_NAME string
 
 func getEnv(key, fallback string) string {
 	if value, exists := os.LookupEnv(key); exists {
+		fmt.Println(key, value)
 		return value
 	}
 	return fallback
@@ -42,6 +41,16 @@ func main() {
 	if err != nil {
 		log.Printf("No .env file: %v", err)
 	}
+	OIDC_PROVIDER_URL = getEnv("OIDC_PROVIDER_URL", "https://login.obiwalker.com")
+	OIDC_API_URL = getEnv("OIDC_API_URL", "https://oidc.obiwalker.com/api/v1/token")
+	CLIENT_ID = getEnv("OIDC_CLIENT_ID", "00000000-0000-0000-0000-000000000001")
+	CLIENT_SECRET = getEnv("OIDC_CLIENT_SECRET", "00000000-0000-0000-0000-000000000002")
+	REDIRECT_URL = getEnv("OIDC_REDIRECT_URL", "http://localhost:8080/callback")
+	APPLICATION_SERVER_HOST = getEnv("APPLICATION_SERVER_HOST", "localhost")
+	APPLICATION_WEB_SERVER_PORT = getEnv("APPLICATION_WEB_SERVER_PORT", "8080")
+	APPLICATION_SERVER_SCHEME = getEnv("APPLICATION_SERVER_SCHEME", "http")
+	PROXY_SERVER_PORT = getEnv("PROXY_SERVER_PORT", "8080")
+	COOKIE_NAME = getEnv("COOKIE_NAME", "jwt")
 
 	// Start the HTTP server to handle callback
 	u, err := url.Parse(fmt.Sprintf("%s://%s:%s", APPLICATION_SERVER_SCHEME, APPLICATION_SERVER_HOST, APPLICATION_WEB_SERVER_PORT))
