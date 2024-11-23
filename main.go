@@ -91,12 +91,14 @@ func main() {
 
 // loginHandler will redirect to the OIDC provider's authorization endpoint
 func loginHandler(w http.ResponseWriter, r *http.Request) {
+	log.Printf("Received request: %s %s from %s", r.Method, r.URL.Path, r.RemoteAddr)
 	url := fmt.Sprintf("%s/oidc/authenticate?client_id=%s&response_type=code&redirect_uri=%s&scope=openid+profile+email&state=xyz&nonce=123", OIDC_PROVIDER_URL, CLIENT_ID, url.QueryEscape(REDIRECT_URL))
 	http.Redirect(w, r, url, http.StatusFound)
 }
 
 // callbackHandler will handle the OIDC callback and exchange the code for a token
 func callbackHandler(w http.ResponseWriter, r *http.Request) {
+	log.Printf("Received request: %s %s from %s", r.Method, r.URL.Path, r.RemoteAddr)
 	// Get the authorization code from the URL
 	code := r.URL.Query().Get("code")
 	if code == "" {
